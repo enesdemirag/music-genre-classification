@@ -46,7 +46,7 @@ class CNN(object):
         self.model.add(Dropout(0.25))
         self.model.add(MaxPooling2D((2, 2)))
 
-        self.model.addConv2D(filters=16, kernel_size=3, activation="relu"))
+        self.model.add(Conv2D(filters=16, kernel_size=3, activation="relu"))
         self.model.add(Dropout(0.25))
         self.model.add(MaxPooling2D((2, 2)))
 
