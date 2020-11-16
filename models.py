@@ -19,6 +19,24 @@ class MLP(object):
             metrics=["accuracy"]
         )
 
+    def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
+        history = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+
+        self.epochs = history.epoch
+        self.hist = pd.DataFrame(history.history)
+
+        return self.epochs, self.hist
+
+    def test(self, features, labels):
+        _, self.accuracy = self.model.evaluate(features, labels, verbose=0)
+
+        return self.accuracy
+
+    def predict(self, features):
+        prediction = self.model(features)
+
+        return prediction
+
 
 class CNN(object):
     def __init__(self, input_size, output_size, learning_rate):
