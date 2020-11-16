@@ -1,5 +1,5 @@
 # Dependencies
-pip3 install numpy matplotlib librosa
+pip3 install numpy matplotlib librosa tensorflow pandas pillow
 
 # Dataset
 wget http://opihi.cs.uvic.ca/sound/genres.tar.gz
