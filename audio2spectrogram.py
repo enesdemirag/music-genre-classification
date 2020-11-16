@@ -4,20 +4,24 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 
-def get_audio(path):
-    # Load the audio
+def load_audio(path): # Loads audio from file
     audio, sampling_rate = librosa.load(path)
     return audio, sampling_rate
 
-def get_spectrogram(path):
-    audio, sampling_rate = get_audio(path)
-    
-    # Get short time fourier transform
-    spectrum = librosa.stft(audio, hop_length=512)
-    spectrum = np.abs(spectrum)
-    spectrum = librosa.amplitude_to_db(spectrum)
+def load_spectrogram(path): # Loads matrix from file
+    """
+    Unpickles the stored file and loads as the spectrum as a np.array
+    """
+    spectrum = np.load(path)
+    return spectrum
 
-    return spectrum, sampling_rate
+def create_spectrogram(audio, method='default'):
+    # Get short time fourier transform
+    if "default" == method:
+        spectrum = librosa.stft(audio, hop_length=512)
+        spectrum = np.abs(spectrum)
+        spectrum = librosa.amplitude_to_db(spectrum)
+        return spectrum
 
 def display_spectrogram(spectrum, sampling_rate):
     librosa.display.specshow(spectrum, sr=sampling_rate, x_axis='time', y_axis='log')
@@ -39,7 +43,6 @@ def matrix2image(mat):
     img = PIL.Image.fromarray(mat)
     return img
 
-
 def save_spectrogram(spectrum, filename, method='image'):
     """
     Saves given spectrogram as an image or stores as a pickled file.
@@ -49,10 +52,3 @@ def save_spectrogram(spectrum, filename, method='image'):
         img.save(filename + ".png")
     elif 'pickle' == method:
         np.save(filename, spectrum)
-
-def load_spectrogram(filename):
-    """
-    Unpickles the stored file and loads as the spectrum as a np.array
-    """
-    spectrum = np.load(filename)
-    return spectrum
