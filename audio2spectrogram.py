@@ -1,3 +1,4 @@
+import PIL
 import librosa
 import librosa.display
 import numpy as np
@@ -23,3 +24,35 @@ def display_spectrogram(spectrum, sampling_rate):
     plt.colorbar(format='%+2.0f dB')
     plt.title('Spectrogram')
     plt.show()
+
+def matrix2image(mat):
+    """
+    Gets a 2D np.array with float values.
+    Maps the values between 0 - 255.
+    Returns a image
+    """
+    mat -= mat.min()
+    mat /= mat.max()
+    mat *= 255
+    
+    mat = np.array(mat, dtype='uint8')
+    img = PIL.Image.fromarray(mat)
+    return img
+
+
+def save_spectrogram(spectrum, filename, method='image'):
+    """
+    Saves given spectrogram as an image or stores as a pickled file.
+    """
+    if 'image' == method:
+        img = matrix2image(spectrum)
+        img.save(filename + ".png")
+    elif 'pickle' == method:
+        np.save(filename, spectrum)
+
+def load_spectrogram(filename):
+    """
+    Unpickles the stored file and loads as the spectrum as a np.array
+    """
+    spectrum = np.load(filename)
+    return spectrum
