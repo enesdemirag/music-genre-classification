@@ -2,13 +2,6 @@ import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
-def train_model(model, features, labels, epochs, batch_size=16, shuffle=True):
-    history = model.fit(x=features, y=labels, batch_size=batch_size, epochs=epochs, shuffle=shuffle)
-
-    epochs = history.epoch
-    hist = pd.DataFrame(history.history)
-    return epochs, hist
-
 def plot_training(epochs, hist):
     plt.figure()
     plt.xlabel('Epoch')
