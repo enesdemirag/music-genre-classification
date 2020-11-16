@@ -1,3 +1,5 @@
+from audio2spectrogram import *
+
 classes = {
     0: "blues",
     1: "classical",
