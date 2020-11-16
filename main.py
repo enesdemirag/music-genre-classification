@@ -4,11 +4,10 @@ from models import *
 from preprocessing import *
 
 # Preprocessing
-spec, fs = get_spectrogram('dataset/audios/blues.wav')
-img = matrix2image(spec)
+# train_data, test_data, labels = get_dataset()
 
 # Creating models
-mlp = MLP(spec.shape, len(classes), 0.01)
+# mlp = MLP(spec.shape, len(classes), 0.01)
 # cnn = CNN(spec.shape, len(classes), 0.01)
 
 # Training
@@ -20,5 +19,5 @@ mlp = MLP(spec.shape, len(classes), 0.01)
 # print(result)
 
 # Prediction
-y = predict(mlp, img)
-print(y)
+# y = predict(mlp, img)
+# print(y)
