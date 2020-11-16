@@ -8,3 +8,4 @@ mkdir -p dataset/audios
 mkdir dataset/spectrograms
 mv genres/* -v dataset/audios/
 rm -rf genres genres.tar.gz
+python dataset.py
