@@ -12,3 +12,12 @@ classes = {
     8: "reggae",
     9: "rock",
 }
+
+def get_dataset():
+    pass
+
+def get_audio_files():
+    pass
+
+def get_spectrograms():
+    pass
