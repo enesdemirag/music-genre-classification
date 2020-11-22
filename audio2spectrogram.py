@@ -24,6 +24,14 @@ def create_spectrogram(audio, method='default'):
         return spectrum
 
 def display_spectrogram(spectrum, sampling_rate):
+    """
+    Frequency types:
+    ‘linear’, ‘fft’, ‘hz’ : frequency range is determined by the FFT window and sampling rate.
+    ‘log’ : the spectrum is displayed on a log scale.
+    ‘mel’ : frequencies are determined by the mel scale.
+    ‘cqt_hz’ : frequencies are determined by the CQT scale.
+    ‘cqt_note’ : pitches are determined by the CQT scale.
+    """
     librosa.display.specshow(spectrum, sr=sampling_rate, x_axis='time', y_axis='log')
     plt.colorbar(format='%+2.0f dB')
     plt.title('Spectrogram')
