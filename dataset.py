@@ -4,9 +4,8 @@ and transforms them into spectrograms,
 then saves them as images inside out_path.
 """
 
-from preprocessing import classes
-from audio2spectrogram import *
 import os
+from utils import classes, display_spectrogram, save_spectrogram, load_audio, create_spectrogram
 
 in_path = "dataset/audios/"
 out_path = "dataset/spectrograms/"
@@ -26,7 +25,8 @@ for genre in classes.values():
 
         # Load audio and create spectrogram
         audio, fs = load_audio(audio_path)
-        spec = create_spectrogram(audio)
+        spec = create_spectrogram(audio, fs)
+        # display_spectrogram(spec, fs)
 
         # Save spectrogram image
         save_spectrogram(spec, spec_path)
