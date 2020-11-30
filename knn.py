@@ -1,5 +1,6 @@
-# In this script kth nearest neighbor machine learning algorithm used on dataset.csv
+# In this script Kth Nearest Neighbor (Knn) machine learning algorithm used on dataset.csv
 # This dataset consist of 1000 samples with 26 features each
+# https://scikit-learn.org/stable/modules/neighbors.html
 
 import numpy as np
 from utils import load_analytic_data, save_sklearn_model
