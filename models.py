@@ -11,22 +11,24 @@ class MLP(object):
         self.model = Sequential()
 
         self.model.add(Flatten(input_shape=input_size))
-        self.model.add(Dense(units=4096, activation="relu"))
         self.model.add(Dense(units=1024, activation="relu"))
+        self.model.add(Dropout(0.2))
         self.model.add(Dense(units=256, activation="relu"))
+        self.model.add(Dropout(0.2))
         self.model.add(Dense(units=64, activation="relu"))
+        self.model.add(Dropout(0.2))
         self.model.add(Dense(units=output_size, activation="softmax"))
 
         self.model.compile(
-            optimizer=RMSprop(learning_rate),
-            loss=MeanSquaredError(),
-            metrics=["accuracy"]
+            optimizer = RMSprop(learning_rate),
+            loss      = MeanSquaredError(),
+            metrics   = ["accuracy"]
         )
 
     def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
-        history = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+        history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
         self.epochs = history.epoch
-        self.hist = pd.DataFrame(history.history)
+        self.hist   = pd.DataFrame(history.history)
         return self.epochs, self.hist
 
     def test(self, features, labels):
@@ -34,8 +36,10 @@ class MLP(object):
         return self.accuracy
 
     def predict(self, features):
-        prediction = self.model(features)
-        return prediction
+        return self.model.predict(features)
+
+    def save(self, path="../saved_models/"):
+        self.model.save(path)
 
 
 class CNN(object):
@@ -59,15 +63,15 @@ class CNN(object):
         self.model.add(Dense(units=output_size, activation="softmax"))
 
         self.model.compile(
-            optimizer=Adam(learning_rate),
-            loss=SparseCategoricalCrossentropy(),
-            metrics=["accuracy"],
+            optimizer = Adam(learning_rate),
+            loss      = SparseCategoricalCrossentropy(),
+            metrics   = ["accuracy"]
         )
 
     def train(self, features, labels, batch_size=16, epochs=10, shuffle=True):
-        history = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
+        history     = self.model.fit(features, labels, batch_size, epochs, shuffle=shuffle)
         self.epochs = history.epoch
-        self.hist = pd.DataFrame(history.history)
+        self.hist   = pd.DataFrame(history.history)
         return self.epochs, self.hist
 
     def test(self, features, labels):
@@ -75,6 +79,7 @@ class CNN(object):
         return self.accuracy
 
     def predict(self, features):
-        prediction = self.model(features)
-        return prediction
+        return self.model.predict(features)
 
+    def save(self, path="../saved_models/"):
+        self.model.save(path)
