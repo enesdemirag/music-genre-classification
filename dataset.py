@@ -5,7 +5,7 @@ then saves them as images inside out_path.
 """
 
 import os
-from utils import classes, display_spectrogram, save_spectrogram, load_audio, create_spectrogram
+from utils import classes, load_audio, audio2spectrogram
 
 in_path = "dataset/audios/"
 out_path = "dataset/spectrograms/"
@@ -25,10 +25,5 @@ for genre in classes.values():
 
         # Load audio and create spectrogram
         audio, fs = load_audio(audio_path)
-        spec = create_spectrogram(audio, fs)
-        # display_spectrogram(spec, fs)
-
-        # Save spectrogram image
-        save_spectrogram(spec, spec_path)
-
+        audio2spectrogram(audio, fs, spec_path)
         print("Saved:", spec_path)

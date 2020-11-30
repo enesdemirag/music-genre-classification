@@ -1,4 +1,5 @@
-import PIL
+import os
+from PIL import Image
 import librosa
 import librosa.display
 import numpy as np
@@ -21,16 +22,20 @@ classes = {
 
 
 def load_audio(path): # Loads audio from file
-    audio, sampling_rate = librosa.load(path)
+    audio, sampling_rate = librosa.load(path, mono=True)
     return audio, sampling_rate
 
 
-def load_spectrogram(path): # Loads matrix from file
+def load_spectrogram(path, method="nparray"): # Loads matrix from file
     """
     Unpickles the stored file and loads as the spectrum as a np.array
     """
-    spectrum = np.load(path)
-    return spectrum
+    if "pickle" == method:
+        return np.load(path)
+    elif "image" == method:
+        return Image.open(path).convert('RGB')
+    elif "nparray" == method:
+        return np.array(Image.open(path).convert('RGB'))
 
 
 def create_spectrogram(audio, sampling_rate, method="mel"): 
@@ -74,7 +79,7 @@ def matrix2image(mat, scale="linear"):
     mat = np.array(mat, dtype="uint8")
 
     if "linear" == scale:
-        return PIL.Image.fromarray(mat)
+        return Image.fromarray(mat)
     elif "log"  == scale:
         pass
 
@@ -102,3 +107,31 @@ def plot_model_training(epochs, hist):
 
 def load_model(path): 
     return tf.keras.models.load_model(path)
+
+
+def audio2spectrogram(audio, sampling_rate, path):
+    plt.figure(figsize=(2.56, 2.56))
+    plt.specgram(x=audio, NFFT=2048, Fs=sampling_rate, Fc=0, noverlap=128,
+                 cmap=plt.get_cmap("inferno"), sides="default",
+                 mode="psd", scale="dB")
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.savefig(path + ".png")
+    plt.clf()
+    plt.close()
+
+
+def get_dataset():
+    path   = "dataset/spectrograms/"
+    images = np.zeros((1000, 256, 256, 3))
+    labels = np.zeros((1000, 1))
+    i      = 0
+    
+    for v, g in classes.items():
+        files = os.listdir(path + g)
+        for f in files:
+            img = load_spectrogram(path + g + '/' + f)
+            images[i] = img
+            labels[i] = v
+            i += 1
+    return images, labels
