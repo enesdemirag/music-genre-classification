@@ -131,3 +131,4 @@ dmypy.json
 # project related
 dataset/
 *tar.gz
+*.sk
