@@ -1,5 +1,6 @@
-import os
 from PIL import Image
+import os
+import pickle
 import librosa
 import librosa.display
 import numpy as np
@@ -164,4 +165,15 @@ def load_analytic_data(path):
     """
     Loads analitic data from csv file and returns as a Pandas dataframe object.
     """
-    return pd.read_csv(path) 
+    return pd.read_csv(path)
+
+
+def save_sklearn_model(model, path):
+    file = open(path, "wb") 
+    pickle.dump(model, file)                      
+
+
+def load_sklearn_model(path):
+    file  = open(path, "rb")
+    model = pickle.load(file)
+    return model
