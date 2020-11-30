@@ -135,3 +135,33 @@ def get_dataset():
             labels[i] = v
             i += 1
     return images, labels
+
+
+def extract_features(y, sr):
+    """ Features:
+    - Chrome Frequencies
+    - Root Mean Square Error
+    - Spectral Centroid
+    - Spectral Bandwith
+    - Spectral Rolloff
+    - Zero Crossing Rate
+    - Mel-Frequecy Cepstral Coefficients (1 to 20)
+    """
+    chroma    = np.mean(librosa.feature.chroma_stft(y=y, sr=sr))
+    spec_cent = np.mean(librosa.feature.spectral_centroid(y=y, sr=sr))
+    spec_bw   = np.mean(librosa.feature.spectral_bandwidth(y=y, sr=sr))
+    rolloff   = np.mean(librosa.feature.spectral_rolloff(y=y, sr=sr))
+    zcr       = np.mean(librosa.feature.zero_crossing_rate(y))
+    mfcc      = librosa.feature.mfcc(y=y, sr=sr)
+    features  = [chroma, spec_cent, spec_bw, rolloff, zcr]    
+    
+    for e in mfcc:
+        features.append(np.mean(e))
+    
+    return features
+
+def load_analytic_data(path):
+    """
+    Loads analitic data from csv file and returns as a Pandas dataframe object.
+    """
+    return pd.read_csv(path) 
