@@ -21,7 +21,7 @@ classes = {
 
 
 def load_audio(path): # Loads audio from file
-    audio, sampling_rate = librosa.load(path)
+    audio, sampling_rate = librosa.load(path, mono=True)
     return audio, sampling_rate
 
 
@@ -102,3 +102,15 @@ def plot_model_training(epochs, hist):
 
 def load_model(path): 
     return tf.keras.models.load_model(path)
+
+
+def audio2spectrogram(audio, sampling_rate, path):
+    plt.figure(figsize=(2.56, 2.56))
+    plt.specgram(x=audio, NFFT=2048, Fs=sampling_rate, Fc=0, noverlap=128,
+                 cmap=plt.get_cmap("inferno"), sides="default",
+                 mode="psd", scale="dB")
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.savefig(path + ".png")
+    plt.clf()
+    plt.close()
