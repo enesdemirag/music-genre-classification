@@ -24,9 +24,9 @@ features = scaler.fit_transform(np.array(dataset.iloc[:, :-1], dtype=float))
 x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2)
 
 # Create knn model
-model = KNeighborsClassifier(n_neighbors=5, weights="uniform")
+model = KNeighborsClassifier(n_neighbors=9, weights="distance")
 
-# Training 
+# Training
 model.fit(x_train, y_train)
 
 # Testing
