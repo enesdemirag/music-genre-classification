@@ -5,3 +5,5 @@
 [tensorflow link](https://www.tensorflow.org/datasets/catalog/gtzan)
 
 [official link](http://marsyas.info/downloads/datasets.html)
+
+[project paper](paper.pdf)
